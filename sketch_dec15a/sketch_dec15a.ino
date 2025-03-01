@@ -1,5 +1,6 @@
 int pressure_pin = 33;
-#define preesureTimeInterval 1000
+int jdq_pin = 12;
+#define preesureTimeInterval 300
 unsigned long pressureTimes =0;
 int numAverage[30];
 int sum = 0;
@@ -9,8 +10,9 @@ int diffVal = 0;
 int maxPressure = 0;
 
 void setup() {
-  // put your setup code here, to run once:
-  Serial.begin(9600);
+  pinMode(jdq_pin, OUTPUT);
+  //put your setup code here, to run once:
+  Serial.begin(19500);
   maxPressure = analogRead(pressure_pin);
   for(int i = 0;i<30;i++) {
     numAverage[i] =  analogRead(pressure_pin);
@@ -20,7 +22,6 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
   getPress();
 }
 
@@ -35,6 +36,9 @@ void getPress() {
       Serial.printf("\n average: %d", average);
       Serial.printf("\n pressureVal: %d", pressureVal);
       Serial.printf("\n diffVal: %d", diffVal);
+      digitalWrite(jdq_pin, HIGH);
+    }else{
+      digitalWrite(jdq_pin, LOW);
     }
   }
 }
